@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Form Đăng Ký</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        .form-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 350px;
+        }
+        h2 {
+            text-align: center;
+            color: purple;
+        }
+        .error {
+            color: red;
+            font-size: 13px;
+            margin: 2px 0 10px 0;
+        }
+        input[type="text"], select, textarea {
+            width: 100%;
+            padding: 6px;
+            margin-bottom: 5px;
+        }
+        .dob-group {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        .dob-group select {
+            flex: 1;
+            padding: 6px;
+        }
+        label {
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        function validateForm() {
+            let isValid = true;
+
+            // Xóa thông báo lỗi cũ
+            document.getElementById("error-ho").innerText = "";
+            document.getElementById("error-ten").innerText = "";
+            document.getElementById("error-sdt").innerText = "";
+
+            let ho = document.forms["myForm"]["ho"].value.trim();
+            let ten = document.forms["myForm"]["ten"].value.trim();
+            let sdt = document.forms["myForm"]["sdt"].value.trim();
+
+            if (ho === "") {
+                document.getElementById("error-ho").innerText = "Vui lòng nhập họ.";
+                isValid = false;
+            }
+
+            if (ten === "") {
+                document.getElementById("error-ten").innerText = "Vui lòng nhập tên.";
+                isValid = false;
+            }
+
+            if (sdt === "") {
+                document.getElementById("error-sdt").innerText = "Vui lòng nhập số điện thoại.";
+                isValid = false;
+            } else if (!/^\d{10}$/.test(sdt)) {
+                document.getElementById("error-sdt").innerText = "Số điện thoại phải là 10 chữ số.";
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        // Tạo option cho ngày, tháng, năm khi tải trang
+        window.onload = function () {
+            const ngaySelect = document.getElementById("ngay");
+            const thangSelect = document.getElementById("thang");
+            const namSelect = document.getElementById("nam");
+
+            for (let i = 1; i <= 31; i++) {
+                const option = document.createElement("option");
+                option.value = i;
+                option.text = i;
+                ngaySelect.appendChild(option);
+            }
+
+            for (let i = 1; i <= 12; i++) {
+                const option = document.createElement("option");
+                option.value = i;
+                option.text = i;
+                thangSelect.appendChild(option);
+            }
+
+            const yearNow = new Date().getFullYear();
+            for (let i = yearNow; i >= 1980; i--) {
+                const option = document.createElement("option");
+                option.value = i;
+                option.text = i;
+                namSelect.appendChild(option);
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="form-container">
+        <form name="myForm" onsubmit="return validateForm()">
+            <h2>FORM ĐĂNG KÝ</h2>
+
+            <label>Họ:</label>
+            <input type="text" name="ho">
+            <div id="error-ho" class="error"></div>
+
+            <label>Tên:</label>
+            <input type="text" name="ten">
+            <div id="error-ten" class="error"></div>
+
+            <label>Ngày sinh:</label>
+            <div class="dob-group">
+                <select id="ngay" name="ngay"></select>
+                <select id="thang" name="thang"></select>
+                <select id="nam" name="nam"></select>
+            </div>
+
+            <label>Giới tính:</label><br>
+            <input type="radio" name="gioitinh"> Nam
+            <input type="radio" name="gioitinh"> Nữ<br><br>
+
+            <label>Số điện thoại:</label>
+            <input type="text" name="sdt">
+            <div id="error-sdt" class="error"></div>
+
+            <label>Sở thích:</label><br>
+            <input type="checkbox" checked> Đọc sách
+            <input type="checkbox"> Xem phim
+            <input type="checkbox"> Nghe nhạc
+            <input type="checkbox"> Đá bóng<br><br>
+
+            <label>Khác:</label>
+            <textarea></textarea><br><br>
+
+            <input type="submit" value="Submit">
+            <input type="reset" value="Reset">
+        </form>
+    </div>
+</body>
+</html>
+
+
